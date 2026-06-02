@@ -260,8 +260,12 @@
           <textarea id="message" placeholder="Preferred batch timing, previous scores, any specific queries…"></textarea>
         </div>
 
-        <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">
-          <span id="btnText">Submit Enquiry</span>
+        <button class="btn-submit" id="submitBtn" onclick="handleSubmit()" style="background:#25D366; box-shadow:0 3px 14px rgba(37,211,102,0.35);">
+          <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+            <circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.20)"/>
+            <path d="M22.9 9.08A9.7 9.7 0 0 0 16.03 6C10.58 6 6.15 10.43 6.15 15.88c0 1.71.45 3.38 1.3 4.85L6 26l5.42-1.42a9.73 9.73 0 0 0 4.61 1.17h.01c5.44 0 9.87-4.43 9.87-9.88a9.8 9.8 0 0 0-2.91-6.79Zm-6.87 15.2a8.07 8.07 0 0 1-4.12-1.12l-.3-.17-3.07.8.82-2.98-.19-.31a8.08 8.08 0 0 1-1.24-4.32c0-4.47 3.64-8.1 8.12-8.1 2.17 0 4.2.84 5.73 2.38a8.06 8.06 0 0 1 2.37 5.75c-.01 4.47-3.65 8.07-8.12 8.07Zm4.45-6.06c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.77.96-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.95-1.21-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.4.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.66.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.72 2.63 4.18 3.69.58.25 1.04.4 1.39.51.59.19 1.12.16 1.54.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z" fill="#fff"/>
+          </svg>
+          <span id="btnText">Send via WhatsApp</span>
           <div class="spinner" id="spinner"></div>
         </button>
 
@@ -372,40 +376,12 @@
     return true;
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     const d = getFormData();
     if (!validate(d)) return;
-
-    if (SHEET_URL.includes('YOUR_SCRIPT_ID')) {
-      // Demo mode — skip actual sheet call, go straight to confirmation
-      savedData = d;
-      showConfirmation(d);
-      return;
-    }
-
-    const btn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const spinner = document.getElementById('spinner');
-    btn.disabled = true;
-    btnText.textContent = 'Saving…';
-    spinner.style.display = 'block';
-
-    try {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(d)
-      });
-      savedData = d;
-      showConfirmation(d);
-    } catch(e) {
-      alert('Could not save to Google Sheet. Please check your internet connection and try again.\n\nError: ' + e.message);
-    } finally {
-      btn.disabled = false;
-      btnText.textContent = 'Submit Enquiry';
-      spinner.style.display = 'none';
-    }
+    savedData = d;
+    sendWhatsApp(d);
+    showConfirmation(d);
   }
 
   function showConfirmation(d) {
@@ -435,9 +411,9 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function sendWhatsApp() {
-    if (!savedData) return;
-    const d = savedData;
+  function sendWhatsApp(d) {
+    if (!d) d = savedData;
+    if (!d) return;
     const streamLine = d.stream ? `\n🔬 Stream: ${d.stream}` : '';
     const msg =
       `🎓 *New Enquiry – Eklavyaa Academy*\n\n` +
