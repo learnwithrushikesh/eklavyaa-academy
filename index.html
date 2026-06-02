@@ -241,20 +241,6 @@
           </div>
         </div>
 
-        <p class="section-label" style="margin-top:8px;">Subjects of Interest</p>
-        <div class="checkbox-grid" id="subjectGrid">
-          <label class="checkbox-item"><input type="checkbox" value="Mathematics" /><span>Mathematics</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Science" /><span>Science</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="English" /><span>English</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Social Science / History" /><span>Social Science / History</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Physics" /><span>Physics</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Chemistry" /><span>Chemistry</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Biology" /><span>Biology</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Accountancy" /><span>Accountancy</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Economics" /><span>Economics</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="All Subjects" /><span>All Subjects</span></label>
-        </div>
-
         <div class="form-group">
           <label>Message / Additional Info</label>
           <textarea id="message" placeholder="Preferred batch timing, previous scores, any specific queries…"></textarea>
@@ -349,7 +335,6 @@
       school:      document.getElementById('school').value.trim(),
       board:       document.getElementById('board').value,
       stream:      document.getElementById('stream').value,
-      subjects:    subjects.join(', ') || '—',
       message:     document.getElementById('message').value.trim(),
     };
   }
@@ -397,7 +382,6 @@
       d.school      ? ['School / College', d.school]    : null,
       ['Board',              d.board],
       d.stream      ? ['Stream',         d.stream]      : null,
-      ['Subjects',           d.subjects],
       d.message     ? ['Message',        d.message]     : null,
     ].filter(Boolean);
 
@@ -427,7 +411,6 @@
       `🏫 *Standard:* ${d.std}\n` +
       (d.school      ? `🏛 *School/College:* ${d.school}\n` : '') +
       `📋 *Board:* ${d.board}` + streamLine + '\n' +
-      `📖 *Subjects:* ${d.subjects}\n` +
       (d.message     ? `\n💬 *Message:* ${d.message}\n` : '') +
       `\n_Sent via Eklavyaa Academy Enquiry Form_`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
