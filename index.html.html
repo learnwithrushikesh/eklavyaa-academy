@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Enquiry Form – Eklavyaa Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0D2B55; --navy-dark: #081A37;
+    --gold: #E8A020; --gold-mid: #F5C260;
+    --white: #FFFFFF; --bg: #F5F7FA;
+    --text: #1A1A2E; --text-muted: #5A6278;
+    --border: #D6DAE8;
+    --success: #1B7A4E; --success-bg: #E6F7EE; --success-border: #A8DBBF;
+    --radius: 14px; --shadow: 0 4px 24px rgba(13,43,85,0.10);
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  header { background: var(--navy-dark); }
+  .header-strip { background: var(--gold); height: 5px; }
+  .header-inner { max-width: 860px; margin: 0 auto; padding: 40px 24px 36px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .logo-ring { width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--gold); background: rgba(232,160,32,0.12); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--gold); margin-bottom: 18px; }
+  .academy-name { font-family: 'Playfair Display', serif; font-size: clamp(26px,5vw,38px); font-weight: 800; color: var(--white); line-height: 1.15; }
+  .academy-name span { color: var(--gold); }
+  .tagline { font-size: 13px; font-weight: 600; letter-spacing: 3px; color: var(--gold-mid); margin-top: 8px; text-transform: uppercase; }
+  .header-desc { margin-top: 16px; font-size: 15px; color: rgba(255,255,255,0.70); max-width: 480px; line-height: 1.6; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 22px; }
+  .badge { background: rgba(232,160,32,0.15); border: 1px solid rgba(232,160,32,0.35); color: var(--gold-mid); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 50px; }
+
+  /* MAIN */
+  main { max-width: 720px; margin: -16px auto 40px; padding: 0 16px; }
+  .form-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .form-card-header { background: var(--navy); padding: 20px 32px; display: flex; align-items: center; gap: 12px; }
+  .form-card-header .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+  .form-card-header h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--white); }
+  .form-body { padding: 32px 32px 28px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 7px; }
+  .form-group label .req { color: var(--gold); margin-left: 2px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--text); border: 1.5px solid var(--border); border-radius: 9px;
+    background: #FAFBFD; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%235A6278' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--navy); background: var(--white); box-shadow: 0 0 0 3px rgba(13,43,85,0.09);
+  }
+  .form-group input.error, .form-group select.error { border-color: #C0392B; box-shadow: 0 0 0 3px rgba(192,57,43,0.09); }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; margin-top: 4px; padding-bottom: 8px; border-bottom: 1.5px solid var(--border); }
+
+  .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .checkbox-item { display: flex; align-items: center; gap: 10px; background: #F5F7FA; border: 1.5px solid var(--border); border-radius: 9px; padding: 10px 14px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .checkbox-item:hover { border-color: var(--navy); background: #EEF1F8; }
+  .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--navy); cursor: pointer; }
+  .checkbox-item span { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; }
+
+  /* SUBMIT BUTTON */
+  .btn-submit {
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    padding: 15px 24px; border: none; border-radius: 10px; cursor: pointer;
+    background: var(--navy); color: var(--white);
+    box-shadow: 0 3px 14px rgba(13,43,85,0.22);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    margin-top: 8px;
+  }
+  .btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13,43,85,0.30); }
+  .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+  /* SPINNER */
+  .spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form-note { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+
+  /* ── CONFIRMATION PAGE ── */
+  #confirmation-page { display: none; }
+  .confirm-body { padding: 40px 32px 36px; text-align: center; }
+
+  .tick-circle {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--success-bg); border: 2px solid var(--success-border);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .tick-circle svg { width: 34px; height: 34px; }
+
+  .confirm-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .confirm-sub { font-size: 15px; color: var(--text-muted); line-height: 1.6; max-width: 420px; margin: 0 auto 28px; }
+
+  /* summary card */
+  .summary-card { background: #F5F7FA; border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; text-align: left; margin-bottom: 28px; }
+  .summary-card h4 { font-size: 12px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .summary-row { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .lbl { color: var(--text-muted); font-weight: 600; min-width: 130px; flex-shrink: 0; }
+  .summary-row .val { color: var(--text); word-break: break-word; }
+
+  /* WhatsApp button on confirmation */
+  .btn-whatsapp-confirm {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    padding: 14px 32px; border: none; border-radius: 10px; cursor: pointer;
+    background: #25D366; color: #fff;
+    box-shadow: 0 3px 14px rgba(37,211,102,0.30);
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-decoration: none; width: 100%; max-width: 340px;
+  }
+  .btn-whatsapp-confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.40); }
+  .btn-icon { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .wa-note { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+  .btn-new-enquiry { background: none; border: 1.5px solid var(--border); color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 10px 24px; border-radius: 9px; cursor: pointer; margin-top: 14px; transition: border-color 0.2s, color 0.2s; }
+  .btn-new-enquiry:hover { border-color: var(--navy); color: var(--navy); }
+
+  footer { text-align: center; padding: 22px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); background: var(--white); }
+  footer strong { color: var(--navy); }
+
+  @media (max-width: 580px) {
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .checkbox-grid { grid-template-columns: 1fr; }
+    .form-body, .confirm-body { padding: 22px 18px 20px; }
+    .form-card-header { padding: 16px 18px; }
+    .summary-row .lbl { min-width: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-strip"></div>
+  <div class="header-inner">
+    <div class="logo-ring">E</div>
+    <div class="academy-name">Eklavyaa <span>Academy</span></div>
+    <div class="tagline">Aim &nbsp;·&nbsp; Learn &nbsp;·&nbsp; Achieve</div>
+    <p class="header-desc">Premier coaching for students from 5th to 12th standard. Fill in the form below and our counsellor will reach out to you shortly.</p>
+    <div class="badge-row">
+      <span class="badge">SSC</span>
+      <span class="badge">CBSE</span>
+      <span class="badge">ICSE</span>
+      <span class="badge">Science (11th &amp; 12th)</span>
+      <span class="badge">Commerce (11th &amp; 12th)</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-card">
+
+    <!-- ── ENQUIRY FORM ── -->
+    <div id="enquiry-page">
+      <div class="form-card-header">
+        <div class="dot"></div>
+        <h2>Student Enquiry Form</h2>
+      </div>
+      <div class="form-body">
+        <p class="section-label">Student &amp; Parent Details</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student Name <span class="req">*</span></label>
+            <input type="text" id="studentName" placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label>Parent / Guardian Name <span class="req">*</span></label>
+            <input type="text" id="parentName" placeholder="Full name" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Mobile Number <span class="req">*</span></label>
+            <input type="tel" id="mobile" placeholder="+91 XXXXX XXXXX" maxlength="15" />
+          </div>
+          <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input type="tel" id="whatsappNum" placeholder="If different from mobile" maxlength="15" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="parent@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="address" placeholder="Area / Street, City" />
+          </div>
+        </div>
+
+        <p class="section-label" style="margin-top:8px;">Academic Details</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Current Standard <span class="req">*</span></label>
+            <select id="std">
+              <option value="">Select standard…</option>
+              <option>5th Standard</option><option>6th Standard</option>
+              <option>7th Standard</option><option>8th Standard</option>
+              <option>9th Standard</option><option>10th Standard</option>
+              <option>11th Standard</option><option>12th Standard</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>School / College Name</label>
+            <input type="text" id="school" placeholder="e.g. Nagpur High School" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Board <span class="req">*</span></label>
+            <select id="board">
+              <option value="">Select board…</option>
+              <option>SSC (State Board)</option>
+              <option>CBSE</option>
+              <option>ICSE</option>
+            </select>
+          </div>
+          <div class="form-group" id="streamGroup" style="visibility:hidden;">
+            <label>Stream <span class="req">*</span></label>
+            <select id="stream">
+              <option value="">Select stream…</option>
+              <option>Science</option>
+              <option>Commerce</option>
+            </select>
+          </div>
+        </div>
+
+        <p class="section-label" style="margin-top:8px;">Subjects of Interest</p>
+        <div class="checkbox-grid" id="subjectGrid">
+          <label class="checkbox-item"><input type="checkbox" value="Mathematics" /><span>Mathematics</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Science" /><span>Science</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="English" /><span>English</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Social Science / History" /><span>Social Science / History</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Physics" /><span>Physics</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Chemistry" /><span>Chemistry</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Biology" /><span>Biology</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Accountancy" /><span>Accountancy</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Economics" /><span>Economics</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="All Subjects" /><span>All Subjects</span></label>
+        </div>
+
+        <div class="form-group">
+          <label>Message / Additional Info</label>
+          <textarea id="message" placeholder="Preferred batch timing, previous scores, any specific queries…"></textarea>
+        </div>
+
+        <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">
+          <span id="btnText">Submit Enquiry</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+
+        <p class="form-note">By submitting this form you agree to be contacted by Eklavyaa Academy regarding admissions and courses.<br/>Your information is kept confidential and will not be shared with third parties.</p>
+      </div>
+    </div>
+
+    <!-- ── CONFIRMATION PAGE ── -->
+    <div id="confirmation-page">
+      <div class="form-card-header">
+        <div class="dot"></div>
+        <h2>Enquiry Confirmed</h2>
+      </div>
+      <div class="confirm-body">
+
+        <div class="tick-circle">
+          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="17" cy="17" r="16" fill="#E6F7EE" stroke="#A8DBBF" stroke-width="1.5"/>
+            <path d="M10 17.5l5 5 9-9" stroke="#1B7A4E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <h2 class="confirm-title">Enquiry Saved Successfully!</h2>
+        <p class="confirm-sub">Your enquiry has been recorded in our system. Our counsellor will contact you within 24 hours.<br/>You can also send us the details directly on WhatsApp for a faster response.</p>
+
+        <div class="summary-card">
+          <h4>Enquiry Summary</h4>
+          <div id="summaryRows"></div>
+        </div>
+
+        <button class="btn-whatsapp-confirm" onclick="sendWhatsApp()">
+          <svg class="btn-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="16" fill="#25D366"/>
+            <path d="M22.9 9.08A9.7 9.7 0 0 0 16.03 6C10.58 6 6.15 10.43 6.15 15.88c0 1.71.45 3.38 1.3 4.85L6 26l5.42-1.42a9.73 9.73 0 0 0 4.61 1.17h.01c5.44 0 9.87-4.43 9.87-9.88a9.8 9.8 0 0 0-2.91-6.79Zm-6.87 15.2a8.07 8.07 0 0 1-4.12-1.12l-.3-.17-3.07.8.82-2.98-.19-.31a8.08 8.08 0 0 1-1.24-4.32c0-4.47 3.64-8.1 8.12-8.1 2.17 0 4.2.84 5.73 2.38a8.06 8.06 0 0 1 2.37 5.75c-.01 4.47-3.65 8.07-8.12 8.07Zm4.45-6.06c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.77.96-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.95-1.21-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.4.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.66.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.72 2.63 4.18 3.69.58.25 1.04.4 1.39.51.59.19 1.12.16 1.54.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z" fill="#fff"/>
+          </svg>
+          Send Details via WhatsApp
+        </button>
+
+        <p class="wa-note">Opens WhatsApp with your enquiry details pre-filled — just tap Send.</p>
+
+        <br/>
+        <button class="btn-new-enquiry" onclick="resetForm()">Submit Another Enquiry</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 <strong>Eklavyaa Academy</strong> &nbsp;|&nbsp; Aim. Learn. Achieve. &nbsp;|&nbsp; All Rights Reserved.
+</footer>
+
+<script>
+  // ─── CONFIG ───────────────────────────────────────────────────────
+  const WHATSAPP_NUMBER = "919011141618";
+  // Replace with your Google Apps Script Web App URL after deployment:
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbxI9ej0Ipvo9N9wq-5DByk-LSJN3XQoXq6VXKH-jsMVc3dFCeKgX-y5I2cr8nkWIJ77/exec";
+  // ──────────────────────────────────────────────────────────────────
+
+  let savedData = null;
+
+  // Show/hide stream dropdown for 11th & 12th
+  document.getElementById('std').addEventListener('change', function() {
+    const show = this.value === '11th Standard' || this.value === '12th Standard';
+    const sg = document.getElementById('streamGroup');
+    sg.style.visibility = show ? 'visible' : 'hidden';
+    if (!show) document.getElementById('stream').value = '';
+  });
+
+  function getFormData() {
+    const subjects = Array.from(document.querySelectorAll('#subjectGrid input:checked')).map(i => i.value);
+    return {
+      timestamp:   new Date().toLocaleString('en-IN'),
+      studentName: document.getElementById('studentName').value.trim(),
+      parentName:  document.getElementById('parentName').value.trim(),
+      mobile:      document.getElementById('mobile').value.trim(),
+      whatsappNum: document.getElementById('whatsappNum').value.trim(),
+      email:       document.getElementById('email').value.trim(),
+      address:     document.getElementById('address').value.trim(),
+      std:         document.getElementById('std').value,
+      school:      document.getElementById('school').value.trim(),
+      board:       document.getElementById('board').value,
+      stream:      document.getElementById('stream').value,
+      subjects:    subjects.join(', ') || '—',
+      message:     document.getElementById('message').value.trim(),
+    };
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+  }
+
+  function markError(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('error');
+    return el;
+  }
+
+  function validate(d) {
+    clearErrors();
+    if (!d.studentName) { markError('studentName').focus(); alert('Please enter the student\'s name.'); return false; }
+    if (!d.parentName)  { markError('parentName').focus();  alert('Please enter the parent/guardian name.'); return false; }
+    if (!d.mobile)      { markError('mobile').focus();      alert('Please enter a mobile number.'); return false; }
+    if (!d.std)         { markError('std').focus();         alert('Please select the current standard.'); return false; }
+    if (!d.board)       { markError('board').focus();       alert('Please select the board.'); return false; }
+    const need11 = d.std === '11th Standard' || d.std === '12th Standard';
+    if (need11 && !d.stream) { markError('stream').focus(); alert('Please select a stream for 11th / 12th.'); return false; }
+    return true;
+  }
+
+  async function handleSubmit() {
+    const d = getFormData();
+    if (!validate(d)) return;
+
+    if (SHEET_URL.includes('YOUR_SCRIPT_ID')) {
+      // Demo mode — skip actual sheet call, go straight to confirmation
+      savedData = d;
+      showConfirmation(d);
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    btn.disabled = true;
+    btnText.textContent = 'Saving…';
+    spinner.style.display = 'block';
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(d)
+      });
+      savedData = d;
+      showConfirmation(d);
+    } catch(e) {
+      alert('Could not save to Google Sheet. Please check your internet connection and try again.\n\nError: ' + e.message);
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Submit Enquiry';
+      spinner.style.display = 'none';
+    }
+  }
+
+  function showConfirmation(d) {
+    // Build summary rows
+    const rows = [
+      ['Student Name',       d.studentName],
+      ['Parent / Guardian',  d.parentName],
+      ['Mobile',             d.mobile],
+      d.whatsappNum ? ['WhatsApp',       d.whatsappNum] : null,
+      d.email       ? ['Email',          d.email]       : null,
+      d.address     ? ['Address',        d.address]     : null,
+      ['Standard',           d.std],
+      d.school      ? ['School / College', d.school]    : null,
+      ['Board',              d.board],
+      d.stream      ? ['Stream',         d.stream]      : null,
+      ['Subjects',           d.subjects],
+      d.message     ? ['Message',        d.message]     : null,
+    ].filter(Boolean);
+
+    const container = document.getElementById('summaryRows');
+    container.innerHTML = rows.map(([lbl, val]) =>
+      `<div class="summary-row"><span class="lbl">${lbl}</span><span class="val">${val}</span></div>`
+    ).join('');
+
+    document.getElementById('enquiry-page').style.display = 'none';
+    document.getElementById('confirmation-page').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function sendWhatsApp() {
+    if (!savedData) return;
+    const d = savedData;
+    const streamLine = d.stream ? `\n🔬 Stream: ${d.stream}` : '';
+    const msg =
+      `🎓 *New Enquiry – Eklavyaa Academy*\n\n` +
+      `👤 *Student:* ${d.studentName}\n` +
+      `👨‍👩‍👦 *Parent/Guardian:* ${d.parentName}\n` +
+      `📱 *Mobile:* ${d.mobile}\n` +
+      (d.whatsappNum ? `💬 *WhatsApp:* ${d.whatsappNum}\n` : '') +
+      (d.email       ? `📧 *Email:* ${d.email}\n` : '') +
+      (d.address     ? `📍 *Address:* ${d.address}\n` : '') +
+      `\n📚 *Academic Details*\n` +
+      `🏫 *Standard:* ${d.std}\n` +
+      (d.school      ? `🏛 *School/College:* ${d.school}\n` : '') +
+      `📋 *Board:* ${d.board}` + streamLine + '\n' +
+      `📖 *Subjects:* ${d.subjects}\n` +
+      (d.message     ? `\n💬 *Message:* ${d.message}\n` : '') +
+      `\n_Sent via Eklavyaa Academy Enquiry Form_`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function resetForm() {
+    document.getElementById('confirmation-page').style.display = 'none';
+    document.getElementById('enquiry-page').style.display = 'block';
+    document.querySelectorAll('input[type=text], input[type=tel], input[type=email], select, textarea')
+      .forEach(el => el.value = '');
+    document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
+    document.getElementById('streamGroup').style.visibility = 'hidden';
+    savedData = null;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+<!--
+═══════════════════════════════════════════════════════════
+  GOOGLE SHEET SETUP  (one-time, ~5 minutes)
+═══════════════════════════════════════════════════════════
+  1. Open https://sheets.google.com → New spreadsheet → rename it "Eklavyaa Enquiries"
+  2. Rename Sheet1 tab to "Enquiries"
+  3. Add these headers in Row 1 (A1 onwards):
+     Timestamp | Student Name | Parent Name | Mobile | WhatsApp |
+     Email | Address | Standard | School/College | Board | Stream | Subjects | Message
+
+  4. Click Extensions > Apps Script → replace all code with:
+
+  function doPost(e) {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Enquiries");
+    var data  = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      data.timestamp, data.studentName, data.parentName, data.mobile,
+      data.whatsappNum, data.email, data.address, data.std, data.school,
+      data.board, data.stream, data.subjects, data.message
+    ]);
+    return ContentService.createTextOutput("OK");
+  }
+
+  5. Click Save → Deploy > New Deployment
+     - Type: Web App
+     - Execute as: Me
+     - Who has access: Anyone
+  6. Authorise → copy the Web App URL
+  7. In this HTML file, replace YOUR_SCRIPT_ID in the SHEET_URL variable with that URL.
+═══════════════════════════════════════════════════════════
+-->
+</body>
+</html>
